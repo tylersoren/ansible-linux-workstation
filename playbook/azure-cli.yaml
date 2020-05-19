@@ -1,5 +1,5 @@
 
-- name: Install base required packages
+- name: Install azure-cli required packages
   apt:
     pkg:
     - ca-certificates 
@@ -12,13 +12,13 @@
     url: https://packages.microsoft.com/keys/microsoft.asc
     state: present
 
-- name: Add Azure CLI repo
+- name: Add azure-cli repo
   apt_repository:
     repo: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
     state: present
     filename: azure-cli
 
-- name: Install Azure CLI
+- name: Install azure-cli
   apt:
     pkg:
     - azure-cli
