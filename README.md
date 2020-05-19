@@ -13,9 +13,9 @@ Ansible config for my Linux workstation setup
 
 2. Run playbook
 
-```
-sudo ansible-playbook playbook/playbook.yaml
-```
+    ```
+    sudo ansible-playbook playbook/playbook.yaml
+    ```
 
 # Resources
 

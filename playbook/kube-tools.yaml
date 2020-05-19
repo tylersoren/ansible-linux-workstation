@@ -41,7 +41,7 @@
     state: directory
 
 
-- name: Install kubectx and Kubernetes
+- name: Install kubectx and kubens
   shell: |
       curl -O https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx
       chmod +x kubectx
