@@ -12,6 +12,7 @@
         - zsh
         - curl
         - wget
+        - unzip
         - bash-completion
         - git
         - software-properties-common
