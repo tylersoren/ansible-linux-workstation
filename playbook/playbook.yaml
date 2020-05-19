@@ -1,0 +1,48 @@
+---
+- name: Configure Workstation
+  tasks:
+    - name: Install base required packages
+      apt:
+        pkg:
+        - zsh
+        - curl
+        - wget
+        - bash-completion
+        - git
+        - python3.8
+        - python3-pip
+        state: latest
+  
+    - name: terraform install
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/0.12.25/terraform_0.12.25_linux_amd64.zip
+        dest: /usr/local/bin
+        remote_src: True
+    
+    - name: Create wsl.conf
+      # Creates config file for WSL that sets drives to automount at root / instead of /mnt
+      # https://itnext.io/setting-up-the-kubernetes-tooling-on-windows-10-wsl-d852ddc6699c
+      copy:
+        dest: "/etc/wsl.conf"
+        content: |
+          [automount]
+          root = /
+          options = "metadata"
+    # - name: Install Azure CLI
+    #   pip:
+    #     name: 
+
+- import_playbook: azure-cli.yaml
+- import_playbook: zsh.yaml
+- import_playbook: kube-tools.yaml
+
+- hosts: localhost
+  name: Cleanup
+  tasks:
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: yes
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes
