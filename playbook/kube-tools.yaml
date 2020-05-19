@@ -11,7 +11,7 @@
 
 - name: Create .kube directory
   file:
-    path: ~/.kube
+    path: "/home/{{ user }}/.kube"
     state: directory
     owner: "{{ user }}"
     group: "{{ user }}"
@@ -19,7 +19,7 @@
 - name: Create a symbolic link to Windows kube config
   file:
     src: "{{ user_windows_path }}/.kube/config"
-    dest: ~/.kube/config
+    dest: "/home/{{ user }}/.kube/config"
     owner: "{{ user }}"
     group: "{{ user }}"
     state: link
@@ -54,10 +54,10 @@
       curl -O ${BASE_URL}/kubens.zsh
       mv kubectx.zsh /opt/kubectx/completion
       mv kubens.zsh /opt/kubectx/completion
-      mkdir -p ~/.oh-my-zsh/completions
-      chmod -R 755 ~/.oh-my-zsh/completions
-      ln -s /opt/kubectx/completion/kubectx.zsh ~/.oh-my-zsh/completions/_kubectx.zsh
-      ln -s /opt/kubectx/completion/kubens.zsh ~/.oh-my-zsh/completions/_kubens.zsh
+      mkdir -p /home/{{ user }}/.oh-my-zsh/completions
+      chmod -R 755 /home/{{ user }}/.oh-my-zsh/completions
+      ln -s /opt/kubectx/completion/kubectx.zsh /home/{{ user }}/.oh-my-zsh/completions/_kubectx.zsh
+      ln -s /opt/kubectx/completion/kubens.zsh /home/{{ user }}/.oh-my-zsh/completions/_kubens.zsh
   args:
     creates: /usr/local/bin/kubectx
   
@@ -81,7 +81,7 @@
   shell: |
       curl -sL https://run.linkerd.io/install | sh
   args:    
-    creates: ~/.linkerd2/bin
+    creates: "/home/{{ user }}/.linkerd2/bin"
 
 
 

@@ -3,29 +3,30 @@
   shell: |
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   args:
-    creates: ~/.oh-my-zsh/
+    creates: "/home/{{ user }}/.oh-my-zsh/"
 
 - name: Set Oh-My-Zsh owner
   file:
-    path: ~/.oh-my-zsh
+    path: "/home/{{ user }}/.oh-my-zsh"
     state: directory
     owner: "{{ user }}"
     group: "{{ user }}"
     recurse: yes
+    mode: '0755'
 
 - name: Create antigen directory
   file:
-    path: ~/.antigen
+    path: "/home/{{ user }}/.antigen"
     state: directory
 
 - name: Install Antigen
-  shell: curl -L git.io/antigen > ~/.antigen/antigen.zsh
+  shell: "curl -L git.io/antigen > /home/{{ user }}/.antigen/antigen.zsh"
   args:
-    creates: ~/.antigen/antigen.zsh
+    creates: "/home/{{ user }}/.antigen/antigen.zsh"
 
 - name: Set permissions on antigen directory
   file:
-    path: ~/.antigen
+    path: "/home/{{ user }}/.antigen"
     state: directory
     owner: "{{ user }}"
     group: "{{ user }}"
@@ -34,15 +35,22 @@
 
 - name: Copy zshrc
   copy:
-    dest: ~/.zshrc
+    dest: "/home/{{ user }}/.zshrc"
     src: ./.zshrc
     owner: "{{ user }}"
     group: "{{ user }}"
 
 - name: Copy .p10k.zsh
   copy:
-    dest: ~/.p10k.zsh
+    dest: "/home/{{ user }}/.p10k.zsh"
     src: ./.p10k.zsh
     owner: "{{ user }}"
     group: "{{ user }}"
+
+
+- name: Set default shell to Zsh
+  user:
+    name: "{{ user }}"
+    shell: /usr/bin/zsh
+
         
