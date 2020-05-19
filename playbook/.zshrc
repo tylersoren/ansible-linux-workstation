@@ -137,6 +137,8 @@ antigen apply
 
 [[ [kubectl] ]] && source <(kubectl completion zsh)
 
+source <(helm completion zsh)
+
 export DOCKER_HOST=tcp://localhost:2375
 export PATH=$PATH:$HOME/.linkerd2/bin
 

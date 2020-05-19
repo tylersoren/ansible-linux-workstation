@@ -1,27 +1,24 @@
----
+
+- name: Install base required packages
+  apt:
+    pkg:
+    - ca-certificates 
+    - apt-transport-https 
+    - gnupg
+    state: latest
+
+- name: Add Microsoft's signing key to apt
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add Azure CLI repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
+    state: present
+    filename: azure-cli
+
 - name: Install Azure CLI
-  hosts: localhost
-  tasks:    
-    - name: Install base required packages
-      apt:
-        pkg:
-        - ca-certificates 
-        - apt-transport-https 
-        - gnupg
-        state: latest
-
-    - name: Add Microsoft's signing key to apt
-      apt_key:
-        url: https://packages.microsoft.com/keys/microsoft.asc
-        state: present
-
-    - name: Add Azure CLI repo
-      apt_repository:
-        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
-        state: present
-        filename: azure-cli
-
-    - name: Install Azure CLI
-      apt:
-        pkg:
-        - azure-cli
+  apt:
+    pkg:
+    - azure-cli

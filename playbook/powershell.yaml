@@ -1,0 +1,18 @@
+- name: Download Microsoft GPG Key
+  get_url: 
+    url: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
+    dest: /tmp/packages-microsoft-prod.deb
+
+- name: Install Microsoft GPG key
+  apt:
+    deb: /tmp/packages-microsoft-prod.deb
+
+- name: Enable Universe Repository
+  apt_repository:
+    repo: "deb http://us.archive.ubuntu.com/ubuntu {{ ansible_distribution_release|lower }} universe"
+    state: present
+
+- name: Install Powershell
+  apt:
+    pkg:
+    - powershell

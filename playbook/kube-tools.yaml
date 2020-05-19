@@ -1,75 +1,78 @@
----
-- name: Install Kubernetes Tools
-  hosts: localhost
-  tasks:    
 
-    - name: Install kubectl
-      # https://kubernetes.io/docs/tasks/tools/install-kubectl/
-      shell: |
-          KUBE_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-          wget -O /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl
-          chmod +x /tmp/kubectl
-          sudo mv /tmp/kubectl /usr/local/bin/kubectl
-      args:
-        creates: /usr/local/bin/kubectl
-    
-    - name: Create .kube directory
-      file:
-        path: ~/.kube
-        state: directory
-        owner: tyler
-        group: tyler
-    
-    - name: Create a symbolic link to Windows kube config
-      file:
-        src: /c/users/tyler.sorensen/.kube/config
-        dest: ~/.kube/config
-        owner: tyler
-        group: tyler
-        state: link
+- name: Install kubectl
+  # https://kubernetes.io/docs/tasks/tools/install-kubectl/
+  shell: |
+      KUBE_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+      wget -O /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl
+      chmod +x /tmp/kubectl
+      sudo mv /tmp/kubectl /usr/local/bin/kubectl
+  args:
+    creates: /usr/local/bin/kubectl
 
-    - name: Install Helm
-      # https://helm.sh/docs/intro/install/
-      shell: |
-          cd /tmp
-          wget https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz
-          tar -zxvf helm-v3.2.1-linux-amd64.tar.gz
-          mv linux-amd64/helm /usr/local/bin/helm
-          helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-      args:
-        creates: /usr/local/bin/helm
+- name: Create .kube directory
+  file:
+    path: ~/.kube
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
 
-    - name: Create kubectx completions foler
-      file:
-        path: /opt/kubectx/completion
-        state: directory
+- name: Create a symbolic link to Windows kube config
+  file:
+    src: "{{ user_windows_path }}/.kube/config"
+    dest: ~/.kube/config
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    state: link
+
+- name: Install Helm
+  # https://helm.sh/docs/intro/install/
+  shell: |
+      cd /tmp
+      wget https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz
+      tar -zxvf helm-v3.2.1-linux-amd64.tar.gz
+      mv linux-amd64/helm /usr/local/bin/helm
+      helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+  args:
+    creates: /usr/local/bin/helm
+
+- name: Create kubectx completions foler
+  file:
+    path: /opt/kubectx/completion
+    state: directory
 
 
-    - name: Install kubectx and Kubernetes
-      shell: |
-          curl -O https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx
-          chmod +x kubectx
-          mv kubectx /usr/local/bin/
-          curl -O https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens
-          chmod +x kubens
-          mv kubens /usr/local/bin/
-          BASE_URL=https://raw.githubusercontent.com/ahmetb/kubectx/master/completion
-          curl -O ${BASE_URL}/kubectx.zsh
-          curl -O ${BASE_URL}/kubens.zsh
-          mv kubectx.zsh /opt/kubectx/completion
-          mv kubens.zsh /opt/kubectx/completion
-          mkdir -p ~/.oh-my-zsh/completions
-          chmod -R 755 ~/.oh-my-zsh/completions
-          ln -s /opt/kubectx/completion/kubectx.zsh ~/.oh-my-zsh/completions/_kubectx.zsh
-          ln -s /opt/kubectx/completion/kubens.zsh ~/.oh-my-zsh/completions/_kubens.zsh
-      args:
-        creates: /usr/local/bin/kubectx
+- name: Install kubectx and Kubernetes
+  shell: |
+      curl -O https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx
+      chmod +x kubectx
+      mv kubectx /usr/local/bin/
+      curl -O https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens
+      chmod +x kubens
+      mv kubens /usr/local/bin/
+      BASE_URL=https://raw.githubusercontent.com/ahmetb/kubectx/master/completion
+      curl -O ${BASE_URL}/kubectx.zsh
+      curl -O ${BASE_URL}/kubens.zsh
+      mv kubectx.zsh /opt/kubectx/completion
+      mv kubens.zsh /opt/kubectx/completion
+      mkdir -p ~/.oh-my-zsh/completions
+      chmod -R 755 ~/.oh-my-zsh/completions
+      ln -s /opt/kubectx/completion/kubectx.zsh ~/.oh-my-zsh/completions/_kubectx.zsh
+      ln -s /opt/kubectx/completion/kubens.zsh ~/.oh-my-zsh/completions/_kubens.zsh
+  args:
+    creates: /usr/local/bin/kubectx
+  
+- name: Install K9s
+  unarchive:
+    src: https://github.com/derailed/k9s/releases/download/v0.19.6/k9s_Linux_x86_64.tar.gz
+    dest: /usr/local/bin
+    remote_src: True
 
-    - name: Install Linkerd
-      shell: |
-          curl -sL https://run.linkerd.io/install | sh
-      args:    
-        creates: ~/.linkerd2/bin
+
+- name: Install Linkerd
+  shell: |
+      curl -sL https://run.linkerd.io/install | sh
+  args:    
+    creates: ~/.linkerd2/bin
 
 
 
