@@ -49,6 +49,18 @@
         scope: global
         value: '"/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe\"'
 
+    - name: Configure Git config email address
+      git_config:
+        name: user.email
+        scope: global
+        value: tyler.sorensen@cellularsales.com
+
+    - name: Configure Git config user name
+      git_config:
+        name: user.name
+        scope: global
+        value: Tyler Sorensen
+
     - name: pip self-update
       pip:
         name: pip
