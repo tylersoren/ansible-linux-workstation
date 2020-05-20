@@ -35,4 +35,5 @@ https://github.com/ryanoasis/nerd-fonts/releases
 
 * https://gist.github.com/PashCracken/b6070359486ea651eed66a5e86567ebb
 * https://itnext.io/setting-up-the-kubernetes-tooling-on-windows-10-wsl-d852ddc6699c
+* https://www.edwardthomson.com/blog/git_credential_manager_with_windows_subsystem_for_linux.html
 

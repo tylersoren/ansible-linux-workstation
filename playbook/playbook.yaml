@@ -42,6 +42,12 @@
           [automount]
           root = /
           options = "metadata"
+          
+    - name: Configure Git Credential manager
+      git_config:
+        name: credential.helper
+        scope: global
+        value: "/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"
 
     - name: pip self-update
       pip:
