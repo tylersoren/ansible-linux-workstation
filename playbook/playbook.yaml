@@ -47,7 +47,7 @@
       git_config:
         name: credential.helper
         scope: global
-        value: '"/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe\"'
+        value: /c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe
 
     - name: Configure Git config email address
       git_config:
