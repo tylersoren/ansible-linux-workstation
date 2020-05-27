@@ -134,7 +134,9 @@ antigen apply
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export DOCKER_HOST=tcp://localhost:2375
+# No Longer needed with WSL2 integration enabled
+# export DOCKER_HOST=tcp://localhost:2375
+
 export PATH=$PATH:$HOME/.linkerd2/bin
 
 alias python=python3.8
