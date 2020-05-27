@@ -14,7 +14,22 @@
     path: "/home/{{ user }}/.kube"
     state: directory
     owner: "{{ user }}"
+    group: "{{ user }}"   
+
+- name: Create zsh completions directory
+  file:
+    path: "/home/{{ user }}/.oh-my-zsh/completions"
+    state: directory
+    owner: "{{ user }}"
     group: "{{ user }}"
+    mode: '0755'
+    recurse: yes
+
+- name: Set kubectl auto-completion
+  shell: |
+      kubectl completion zsh > "/home/{{ user }}/.oh-my-zsh/completions/_kubectl"
+  args:
+    creates: /home/{{ user }}/.oh-my-zsh/completions/_kubectl
 
 - name: Create a symbolic link to Windows kube config
   file:
@@ -35,6 +50,12 @@
   args:
     creates: /usr/local/bin/helm
 
+- name: Set helm auto-completion
+  shell: |
+      helm completion zsh > "/home/{{ user }}/.oh-my-zsh/completions/_helm"
+  args:
+    creates: /home/{{ user }}/.oh-my-zsh/completions/_helm
+
 - name: Create kubectx completions foler
   file:
     path: /opt/kubectx/completion
@@ -54,8 +75,6 @@
       curl -O ${BASE_URL}/kubens.zsh
       mv kubectx.zsh /opt/kubectx/completion
       mv kubens.zsh /opt/kubectx/completion
-      mkdir -p /home/{{ user }}/.oh-my-zsh/completions
-      chmod -R 755 /home/{{ user }}/.oh-my-zsh/completions
       ln -s /opt/kubectx/completion/kubectx.zsh /home/{{ user }}/.oh-my-zsh/completions/_kubectx.zsh
       ln -s /opt/kubectx/completion/kubens.zsh /home/{{ user }}/.oh-my-zsh/completions/_kubens.zsh
   args:
@@ -82,8 +101,5 @@
       curl -sL https://run.linkerd.io/install | sh
   args:    
     creates: "/home/{{ user }}/.linkerd2/bin"
-
-
-
 
 
