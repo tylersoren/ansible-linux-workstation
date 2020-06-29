@@ -1,0 +1,20 @@
+- name: Create a symbolic link to Windows .aws folder
+  file:
+    src: "{{ user_windows_path }}/.aws"
+    dest: "/home/{{ user }}/.aws"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    state: link
+
+- name: Download AWS CLI 2 installer
+  unarchive:
+    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp
+    remote_src: True
+
+- name: Install AWS CLI v2
+  shell: |
+      /tmp/aws/install
+  args:
+    creates: /usr/local/bin/aws
+

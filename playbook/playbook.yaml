@@ -23,13 +23,13 @@
   
     - name: Install Terraform
       unarchive:
-        src: https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip
+        src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
         dest: /usr/local/bin
         remote_src: True
     
     - name: Install Vault
       unarchive:
-        src: https://releases.hashicorp.com/vault/1.4.1/vault_1.4.1_linux_amd64.zip
+        src: https://releases.hashicorp.com/vault/1.4.2/vault_1.4.2_linux_amd64.zip
         dest: /usr/local/bin
         remote_src: True
     
@@ -61,24 +61,13 @@
         scope: global
         value: Tyler Sorensen
 
-    - name: pip self-update
-      pip:
-        name: pip
-        state: latest
-        executable: pip3
-
-    - name: Install Python Packages
-      pip:
-        name:
-          - pipenv
-          - docker-compose
-        executable: pip3
-
+    - import_tasks: awscli.yaml        
+    - import_tasks: python.yaml
     - import_tasks: powershell.yaml
     - import_tasks: zsh.yaml
     - import_tasks: kube-tools.yaml
-    - import_tasks: azure-cli.yaml
-    
+    - import_tasks: azurecli.yaml
+
     - name: Remove useless packages from the cache
       apt:
         autoclean: yes
