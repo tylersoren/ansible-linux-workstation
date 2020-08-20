@@ -16,3 +16,5 @@
   apt:
     pkg:
     - powershell
+  # Powershell not yet supported in Focal (20.04)
+  when: ansible_distribution_release != "focal"
