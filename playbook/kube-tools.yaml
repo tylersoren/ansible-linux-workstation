@@ -39,6 +39,12 @@
     group: "{{ user }}"
     state: link
 
+- name: Install Kind
+  get_url:
+    url: https://kind.sigs.k8s.io/dl/v0.8.1/kind-linux-amd64
+    dest: /usr/local/bin/kind
+    mode: a+x
+
 - name: Install Helm
   # https://helm.sh/docs/intro/install/
   shell: |
