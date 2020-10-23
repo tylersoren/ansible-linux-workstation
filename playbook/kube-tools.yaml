@@ -41,7 +41,7 @@
 
 - name: Install Kind
   get_url:
-    url: https://kind.sigs.k8s.io/dl/{{ kind_version }}/kind-linux-amd64
+    url: https://kind.sigs.k8s.io/dl/v{{ kind_version }}/kind-linux-amd64
     dest: /usr/local/bin/kind
     mode: a+x
 
