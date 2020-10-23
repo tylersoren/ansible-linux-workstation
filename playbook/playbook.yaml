@@ -5,6 +5,9 @@
   vars:
     user: tyler
     user_windows_path: /c/Users/tyler.sorensen
+    terraform_version: 0.13.5
+    vault_version: 1.5.5
+    kind_version: 0.9.0
   tasks:
     - name: Install base required packages
       apt:
@@ -13,6 +16,7 @@
         - curl
         - wget
         - unzip
+        - jq
         - bash-completion
         - git
         - software-properties-common
@@ -23,13 +27,13 @@
   
     - name: Install Terraform
       unarchive:
-        src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+        src: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
         dest: /usr/local/bin
         remote_src: True
     
     - name: Install Vault
       unarchive:
-        src: https://releases.hashicorp.com/vault/1.4.2/vault_1.4.2_linux_amd64.zip
+        src: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
         dest: /usr/local/bin
         remote_src: True
     

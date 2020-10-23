@@ -147,3 +147,6 @@ fpath=(
     ~/.oh-my-zsh/completions/
     "${fpath[@]}"
 )
+
+# alias for command to move corporate DNS address to primary DNS server when on VPN
+alias fix_dns='content=$(cat /etc/resolv.conf); sudo bash -c "echo -en \"nameserver 10.125.35.25\n$content\n\" >/etc/resolv.conf"'
