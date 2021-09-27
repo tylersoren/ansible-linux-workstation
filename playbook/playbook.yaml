@@ -5,9 +5,9 @@
   vars:
     user: tyler
     user_windows_path: /c/Users/tyler.sorensen
-    terraform_version: 0.13.5
-    vault_version: 1.5.5
-    kind_version: 0.9.0
+    terraform_version: 1.0.7
+    vault_version: 1.8.2
+    kind_version: 0.11.1
   tasks:
     - name: Install base required packages
       apt:
